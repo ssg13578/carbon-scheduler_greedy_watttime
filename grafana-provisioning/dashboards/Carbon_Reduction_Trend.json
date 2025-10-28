@@ -1,0 +1,66 @@
+{
+  "dashboard": {
+    "title": "🌍 Carbon Scheduler Comparison",
+    "uid": "carbon-scheduler-auto",
+    "schemaVersion": 36,
+    "version": 1,
+    "refresh": "5m",
+    "panels": [
+      {
+        "type": "timeseries",
+        "title": "Baseline vs Scheduler (gCO₂/kWh)",
+        "targets": [
+          {
+            "refId": "A",
+            "rawSql": "SELECT timestamp AS \"time\", baseline_carbon AS \"Baseline\", scheduler_carbon AS \"Scheduler\" FROM carbon_history ORDER BY timestamp ASC;",
+            "format": "time_series",
+            "datasource": "PostgreSQL"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "type": "timeseries",
+        "title": "Carbon Reduction Trend (%)",
+        "targets": [
+          {
+            "refId": "A",
+            "rawSql": "SELECT timestamp AS \"time\", reduction_rate FROM carbon_history ORDER BY timestamp ASC;",
+            "format": "time_series",
+            "datasource": "PostgreSQL"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "type": "table",
+        "title": "Carbon History (Latest 50)",
+        "targets": [
+          {
+            "refId": "A",
+            "rawSql": "SELECT timestamp, cluster_name, baseline_carbon, scheduler_carbon, reduction_rate FROM carbon_history ORDER BY timestamp DESC LIMIT 50;",
+            "format": "table",
+            "datasource": "PostgreSQL"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 16
+        }
+      }
+    ]
+  },
+  "overwrite": true
+}
